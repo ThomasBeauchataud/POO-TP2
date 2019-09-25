@@ -1,5 +1,7 @@
 package sample;
 
+import static java.lang.Math.abs;
+
 public class Pigeon {
 
     private Position position;
@@ -42,7 +44,25 @@ public class Pigeon {
     }
 
     public void moveTo(Position positionToReach) {
-
+        int i = 0;
+        while(i < this.speed) {
+            int xDiff = positionToReach.getX() - this.position.getX();
+            int yDiff = positionToReach.getY() - this.position.getY();
+            if(abs(xDiff) < abs(yDiff)) {
+                if(yDiff < 0) {
+                    this.position.setY(this.position.getY() - 1);
+                } else {
+                    this.position.setY(this.position.getY() + 1);
+                }
+            } else {
+                if(xDiff < 0) {
+                    this.position.setX(this.position.getX() - 1);
+                } else {
+                    this.position.setX(this.position.getX() + 1);
+                }
+            }
+            i++;
+        }
     }
 
 }
