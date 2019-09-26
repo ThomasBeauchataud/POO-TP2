@@ -4,9 +4,14 @@ public class Food {
 
     private Position position;
     private int durability;
-    private int speed;
+    private final int speed = 1;
 
     public Food() { }
+
+    public Food(Position position) {
+        this.position = position;
+        this.durability = 10;
+    }
 
     public Position getPosition() {
         return position;
@@ -16,11 +21,12 @@ public class Food {
         this.position = position;
     }
 
-    public int getDurability() {
-        return durability;
+    public int getSpeed() {
+        return speed;
     }
 
-    public void setDurability(int durability) {
-        this.durability = durability;
+    public void gettingOld() {
+        this.durability--;
     }
+
 }

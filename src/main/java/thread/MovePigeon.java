@@ -18,7 +18,7 @@ public class MovePigeon implements Runnable {
         while(true) {
             this.pigeon.moveTo(this.positionToReach);
             try {
-                Thread.sleep(4000);
+                Thread.sleep(this.pigeon.getSpeed());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
