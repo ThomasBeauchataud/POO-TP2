@@ -11,6 +11,10 @@ public class Pigeon {
 
     public Pigeon() { }
 
+    public Pigeon(Position position) {
+        this.position = position;
+    }
+
     public Position getPosition() {
         return position;
     }
