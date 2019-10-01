@@ -2,7 +2,6 @@ import database.ClassDatabase;
 import database.DatabaseInterface;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -11,14 +10,10 @@ import entity.Pigeon;
 import entity.Position;
 import thread.FoodLifeCycle;
 
-import java.io.File;
+import static sample.ImageManager.*;
 
 public class Main extends Application {
 
-    private Image foodImage = this.loadFoodImage();
-    private Image pigeonImage = this.loadPigeonImage();
-    private final int pigeonSize = 60;
-    private final int foodSize = 20;
     private final int gridSize = 1000;
 
     private DatabaseInterface database = new ClassDatabase();
@@ -43,7 +38,7 @@ public class Main extends Application {
         database.addFood(food);
         Thread foodThread = new Thread(new FoodLifeCycle(food));
         ImageView foodImageView = new ImageView();
-        foodImageView.setImage(this.foodImage);
+        foodImageView.setImage(foodImage);
         foodImageView.setLayoutX(food.getPosition().getX());
         foodImageView.setLayoutY(food.getPosition().getY());
         root.getChildren().add(foodImageView);
@@ -52,20 +47,10 @@ public class Main extends Application {
 
     private void displayPigeons(GridPane root) {
         for(Pigeon pigeon : database.getPigeonList()) {
-            ImageView pigeonImageView = new ImageView(this.pigeonImage);
+            ImageView pigeonImageView = new ImageView(pigeonImage);
             //todo set pigeon ImageView Layout position
             root.getChildren().add(pigeonImageView);
         }
-    }
-
-    private Image loadFoodImage() {
-        File file = new File(System.getProperty("user.dir") + "/src/main/resources/food.png");
-        return new Image(file.toURI().toString());
-    }
-
-    private Image loadPigeonImage() {
-        File file = new File(System.getProperty("user.dir") + "/src/main/resources/pigeon.png");
-        return new Image(file.toURI().toString());
     }
 
     private void loadPigeon () {
@@ -73,13 +58,13 @@ public class Main extends Application {
             new Position(0, 0)
         ));
         database.addPigeon(new Pigeon(
-            new Position(0, this.gridSize - this.pigeonSize)
+            new Position(0, this.gridSize - pigeonSize)
         ));
         database.addPigeon(new Pigeon(
-            new Position(this.gridSize - this.pigeonSize, 0)
+            new Position(this.gridSize - pigeonSize, 0)
         ));
         database.addPigeon(new Pigeon(
-            new Position(this.gridSize - this.pigeonSize, this.gridSize - this.pigeonSize)
+            new Position(this.gridSize - pigeonSize, this.gridSize - pigeonSize)
         ));
     }
 

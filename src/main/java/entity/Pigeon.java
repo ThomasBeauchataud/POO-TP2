@@ -6,8 +6,8 @@ public class Pigeon {
 
     private Position position;
     private int id;
-    private final int speed = 10;
-    private final int timeToSleep = 10;
+    public static int speed = 10;
+    public static int timeToSleep = 10;
     private boolean sleeping;
 
     public Pigeon() { }
