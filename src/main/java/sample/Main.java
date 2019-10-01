@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import thread.FoodLifeCycle;
 
@@ -17,15 +19,25 @@ public class Main extends Application {
     private Image pigeonImage = this.loadPigeonImage();
     private ArrayList<Food> foodList = this.loadFood();
     private ArrayList<Pigeon> pigeonList = this.loadPigeon();
-    private final int pigeonSize = 60;
+    private final int pigeonSize = 20;
     private final int foodSize = 20;
     private final int gridSize = 1000;
 
     @Override
     public void start(Stage primaryStage) {
         GridPane root = new GridPane();
+        root.setGridLinesVisible(true); // TODO remove this when debug is done
+
+        // Add 40 cases to the grid
+        for (int i = 0; i < 40; i++) {
+            ColumnConstraints column = new ColumnConstraints(foodSize);
+            RowConstraints row = new RowConstraints(foodSize);
+            root.getColumnConstraints().add(column);
+            root.getRowConstraints().add(row);
+        }
+
         primaryStage.setTitle("Hello World");
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 800, 800);
         this.initPigeon(root);
         scene.setOnMouseClicked(mouseEvent  ->
                 addFood(root, new Position((int) mouseEvent.getSceneX(), (int) mouseEvent.getSceneY()))
@@ -42,6 +54,10 @@ public class Main extends Application {
         foodImageView.setImage(this.foodImage);
         foodImageView.setLayoutX(food.getPosition().getX());
         foodImageView.setLayoutY(food.getPosition().getY());
+
+        // Position object on the grid
+        GridPane.setConstraints(foodImageView, food.getPosition().getX() / foodSize, food.getPosition().getY() / foodSize);
+
         root.getChildren().add(foodImageView);
         foodThread.start();
     }
