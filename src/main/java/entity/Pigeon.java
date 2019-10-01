@@ -1,4 +1,4 @@
-package sample;
+package entity;
 
 import static java.lang.Math.abs;
 

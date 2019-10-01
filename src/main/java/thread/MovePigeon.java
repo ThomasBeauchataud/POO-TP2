@@ -1,7 +1,7 @@
 package thread;
 
-import sample.Pigeon;
-import sample.Position;
+import entity.Pigeon;
+import entity.Position;
 
 public class MovePigeon implements Runnable {
 

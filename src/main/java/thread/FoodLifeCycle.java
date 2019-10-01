@@ -1,6 +1,6 @@
 package thread;
 
-import sample.Food;
+import entity.Food;
 
 public class FoodLifeCycle implements Runnable {
 
