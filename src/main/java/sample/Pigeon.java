@@ -5,6 +5,7 @@ import static java.lang.Math.abs;
 public class Pigeon {
 
     private Position position;
+    private int id;
     private final int speed = 10;
     private final int timeToSleep = 10;
     private boolean sleeping;
@@ -21,6 +22,14 @@ public class Pigeon {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isSleeping() {
