@@ -8,7 +8,6 @@ public class ImageManager {
 
     public static Image foodImage = loadFoodImage();
     public static Image pigeonImage = loadPigeonImage();
-
     public static int pigeonSize = 60;
     public static int foodSize = 20;
 

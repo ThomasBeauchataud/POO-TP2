@@ -4,10 +4,11 @@ import static java.lang.Math.abs;
 
 public class Pigeon {
 
-    private Position position;
-    private int id;
     public static int speed = 10;
     public static int timeToSleep = 10;
+
+    private Position position;
+    private int id;
     private boolean sleeping;
 
     public Pigeon() { }
