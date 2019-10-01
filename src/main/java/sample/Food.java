@@ -3,6 +3,7 @@ package sample;
 public class Food {
 
     private Position position;
+    private int id;
     private int durability;
     private final int speed = 1;
 
@@ -19,6 +20,14 @@ public class Food {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getSpeed() {

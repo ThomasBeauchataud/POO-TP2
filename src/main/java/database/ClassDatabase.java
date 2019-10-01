@@ -17,12 +17,32 @@ public class ClassDatabase implements DatabaseInterface {
 
     @Override
     public int addPigeon(Pigeon pigeon) {
-        pigeonList.add(pigeonList.size(), pigeon);
-        return pigeonList.size() - 1;
+        int id = pigeonList.size();
+        pigeon.setId(id);
+        pigeonList.add(id, pigeon);
+        return id;
     }
 
     @Override
     public void updatePigeon(Pigeon pigeon) {
         pigeonList.add(pigeon.getId(), pigeon);
+    }
+
+    @Override
+    public Food getFoodById(int id) {
+        return foodList.get(id - 1);
+    }
+
+    @Override
+    public int addFood(Food food) {
+        int id = foodList.size();
+        food.setId(id);
+        foodList.add(foodList.size(), food);
+        return id;
+    }
+
+    @Override
+    public void updateFood(Food food) {
+        foodList.add(food.getId(), food);
     }
 }
