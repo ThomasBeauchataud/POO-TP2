@@ -1,7 +1,9 @@
 package database;
 
-import sample.Food;
-import sample.Pigeon;
+import entity.Food;
+import entity.Pigeon;
+
+import java.util.ArrayList;
 
 public interface DatabaseInterface {
 
@@ -10,6 +12,8 @@ public interface DatabaseInterface {
     public int addPigeon (Pigeon pigeon);
 
     public void updatePigeon (Pigeon pigeon);
+
+    ArrayList<Pigeon> getPigeonList();
 
     public Food getFoodById(int id);
 

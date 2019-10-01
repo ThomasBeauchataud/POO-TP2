@@ -1,7 +1,7 @@
 package database;
 
-import sample.Food;
-import sample.Pigeon;
+import entity.Food;
+import entity.Pigeon;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,11 @@ public class ClassDatabase implements DatabaseInterface {
     @Override
     public void updatePigeon(Pigeon pigeon) {
         pigeonList.add(pigeon.getId(), pigeon);
+    }
+
+    @Override
+    public ArrayList<Pigeon> getPigeonList() {
+        return this.pigeonList;
     }
 
     @Override
