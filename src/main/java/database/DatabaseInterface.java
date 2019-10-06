@@ -20,4 +20,7 @@ public interface DatabaseInterface {
     public int addFood (Food food);
 
     public void updateFood (Food food);
+
+    Food[] getFoods();
+
 }

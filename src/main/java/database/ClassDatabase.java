@@ -50,4 +50,9 @@ public class ClassDatabase implements DatabaseInterface {
     public void updateFood(Food food) {
         foodList.add(food.getId(), food);
     }
+
+    @Override
+    public Food[] getFoods() {
+        return (Food[]) foodList.toArray();
+    }
 }

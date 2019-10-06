@@ -9,7 +9,7 @@ public class Pigeon {
 
     private Position position;
     private int id;
-    private boolean sleeping;
+    private int sleeping;
 
     public Pigeon() { }
 
@@ -33,11 +33,11 @@ public class Pigeon {
         this.id = id;
     }
 
-    public boolean isSleeping() {
+    public int getSleeping() {
         return sleeping;
     }
 
-    public void setSleeping(boolean sleeping) {
+    public void setSleeping(int sleeping) {
         this.sleeping = sleeping;
     }
 

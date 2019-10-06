@@ -30,6 +30,14 @@ public class Food {
         this.id = id;
     }
 
+    public int getDurability() {
+        return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
     public int getSpeed() {
         return speed;
     }
