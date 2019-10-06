@@ -13,17 +13,16 @@ import javafx.stage.Stage;
 import thread.FoodLifeCycle;
 import thread.PigeonLifeCycle;
 
-import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import static sample.ImageManager.*;
 
 public class LayoutManager implements LayoutManagerInterface {
 
-    public static int gridSize = 800;
+    public static final int gridSize = 800;
+    public static final int frequency = 300;
 
     private DatabaseInterface database;
-    private ArrayList<Thread> pigeonThreadList;
-    private ArrayList<Thread> foodThreadList;
 
     public LayoutManager(DatabaseInterface database) {
         this.database = database;
@@ -50,6 +49,24 @@ public class LayoutManager implements LayoutManagerInterface {
         );
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        //Updating the layout
+        while (true) {
+            for(int i = 1 ; i < 5 ; i++) {
+                ImageView pigeonImageView = (ImageView ) root.getChildren().get(i);
+                Pigeon pigeon = database.getPigeonById(i);
+                pigeonImageView.setLayoutX(pigeon.getPosition().getX());
+                pigeonImageView.setLayoutY(pigeon.getPosition().getY());
+                GridPane.setConstraints(pigeonImageView, pigeon.getPosition().getX() / foodSize, pigeon.getPosition().getY() / foodSize);
+                root.getChildren().remove(i);
+                root.getChildren().add(i, pigeonImageView);
+            }
+            try {
+                TimeUnit.MILLISECONDS.sleep(frequency);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void displayPigeons(GridPane root) {
@@ -60,7 +77,6 @@ public class LayoutManager implements LayoutManagerInterface {
             GridPane.setConstraints(pigeonImageView, pigeon.getPosition().getX() / foodSize, pigeon.getPosition().getY() / foodSize);
             root.getChildren().add(pigeonImageView);
             Thread pigeonThread = new Thread(new PigeonLifeCycle(database, pigeon.getId()));
-            pigeonThreadList.add(pigeonThread);
             pigeonThread.start();
         }
     }
@@ -76,15 +92,7 @@ public class LayoutManager implements LayoutManagerInterface {
         GridPane.setConstraints(foodImageView, food.getPosition().getX() / foodSize, food.getPosition().getY() / foodSize);
         root.getChildren().add(foodImageView);
         Thread foodThread = new Thread(new FoodLifeCycle(food));
-        foodThreadList.add(foodThread);
         foodThread.start();
-        notifyPigeons();
-    }
-
-    private void notifyPigeons() {
-        for (Thread pigeonThread : pigeonThreadList) {
-            pigeonThread.notify();
-        }
     }
 
 }

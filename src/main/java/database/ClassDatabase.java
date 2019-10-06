@@ -53,6 +53,6 @@ public class ClassDatabase implements DatabaseInterface {
 
     @Override
     public Food[] getFoods() {
-        return (Food[]) foodList.toArray();
+        return foodList.toArray(new Food[0]);
     }
 }

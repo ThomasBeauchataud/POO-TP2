@@ -5,6 +5,10 @@ import entity.Food;
 import entity.Pigeon;
 import entity.Position;
 
+import java.util.concurrent.TimeUnit;
+
+import static sample.LayoutManager.frequency;
+
 public class PigeonLifeCycle implements Runnable {
 
     private DatabaseInterface database;
@@ -17,12 +21,13 @@ public class PigeonLifeCycle implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            try {
+        try {
+            while (true) {
                 lookForFood();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+                TimeUnit.MILLISECONDS.sleep(frequency);
             }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
