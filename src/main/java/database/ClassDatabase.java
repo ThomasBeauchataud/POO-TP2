@@ -6,6 +6,9 @@ import entity.Position;
 
 import java.util.ArrayList;
 
+import static sample.ImageManager.pigeonSize;
+import static sample.LayoutManager.gridSize;
+
 public class ClassDatabase implements DatabaseInterface {
 
     private ArrayList<Food> foodList = new ArrayList<>();
@@ -53,7 +56,13 @@ public class ClassDatabase implements DatabaseInterface {
 
     @Override
     public void updateFood(Food food) {
+        foodList.remove(food);
         foodList.add(food.getId(), food);
+    }
+
+    @Override
+    public void removeFood(Food food) {
+        foodList.remove(food);
     }
 
     @Override
@@ -66,14 +75,19 @@ public class ClassDatabase implements DatabaseInterface {
         return pigeonList.size();
     }
 
+    @Override
+    public int getFoodsCount() {
+        return foodList.size();
+    }
+
     private void loadPigeon () {
         addPigeon(new Pigeon(
                 new Position(0, 0)
         ));
-        /*addPigeon(new Pigeon(
+        addPigeon(new Pigeon(
             new Position(0, gridSize - pigeonSize)
         ));
-        addPigeon(new Pigeon(
+        /*addPigeon(new Pigeon(
             new Position(gridSize - pigeonSize, 0)
         ));
         addPigeon(new Pigeon(

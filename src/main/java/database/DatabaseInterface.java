@@ -21,8 +21,11 @@ public interface DatabaseInterface {
 
     public void updateFood (Food food);
 
+    void removeFood(Food food);
+
     Food[] getFoods();
 
     int getPigeonsCount();
 
+    int getFoodsCount();
 }

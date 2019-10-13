@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import static sample.LayoutManager.frequency;
 
+@SuppressWarnings("InfiniteLoopStatement")
 public class FoodLifeCycle implements Runnable {
 
     private Food food;

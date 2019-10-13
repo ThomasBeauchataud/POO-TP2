@@ -47,7 +47,7 @@ public class Pigeon {
 
     public void moveTo(Position positionToReach) {
         int i = 0;
-        while(i < this.speed) {
+        while(i < this.speed && !positionToReach.toString().equals(position.toString())) {
             int xDiff = positionToReach.getX() - this.position.getX();
             int yDiff = positionToReach.getY() - this.position.getY();
             if(abs(xDiff) < abs(yDiff)) {

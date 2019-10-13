@@ -2,8 +2,6 @@ import database.ClassDatabase;
 import database.DatabaseInterface;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import entity.Pigeon;
-import entity.Position;
 import sample.LayoutManager;
 import sample.LayoutManagerInterface;
 

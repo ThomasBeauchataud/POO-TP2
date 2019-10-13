@@ -4,19 +4,26 @@ import database.DatabaseInterface;
 import entity.Food;
 import entity.Pigeon;
 import entity.Position;
+import javafx.application.Platform;
+import javafx.scene.layout.GridPane;
 
 import java.util.concurrent.TimeUnit;
 
 import static sample.LayoutManager.frequency;
 
+@SuppressWarnings("InfiniteLoopStatement")
 public class PigeonLifeCycle implements Runnable {
 
     private DatabaseInterface database;
     private int pigeonId;
+    private Runnable layoutPigeonUpdater;
+    private Runnable layoutFoodUpdater;
 
-    public PigeonLifeCycle(DatabaseInterface database, int pigeonId) {
+    public PigeonLifeCycle(DatabaseInterface database, int pigeonId, GridPane root) {
         this.database = database;
         this.pigeonId = pigeonId;
+        layoutPigeonUpdater = new LayoutPigeonUpdater(database, root, pigeonId);
+        layoutFoodUpdater = new LayoutFoodUpdater(database, root);
     }
 
     @Override
@@ -27,7 +34,7 @@ public class PigeonLifeCycle implements Runnable {
                 TimeUnit.MILLISECONDS.sleep(frequency);
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -47,12 +54,17 @@ public class PigeonLifeCycle implements Runnable {
                 return;
             }
             pigeon.setSleeping(pigeon.getSleeping() + 1);
-            database.updatePigeon(pigeon);
             return;
         }
         Position positionToReach = bestFood.getPosition();
         pigeon.moveTo(positionToReach);
-
+        if(bestFood.getPosition().toString().equals(pigeon.getPosition().toString())) {
+            bestFood.setEaten(true);
+            database.updateFood(bestFood);
+            Platform.runLater(layoutFoodUpdater);
+        }
+        database.updatePigeon(pigeon);
+        Platform.runLater(layoutPigeonUpdater);
     }
 
 }
