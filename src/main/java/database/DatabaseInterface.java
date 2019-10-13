@@ -23,4 +23,6 @@ public interface DatabaseInterface {
 
     Food[] getFoods();
 
+    int getPigeonsCount();
+
 }

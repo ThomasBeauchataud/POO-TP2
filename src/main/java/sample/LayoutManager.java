@@ -11,16 +11,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import thread.FoodLifeCycle;
+import thread.LayoutUpdate;
 import thread.PigeonLifeCycle;
-
-import java.util.concurrent.TimeUnit;
 
 import static sample.ImageManager.*;
 
 public class LayoutManager implements LayoutManagerInterface {
 
     public static final int gridSize = 800;
-    public static final int frequency = 300;
+    public static final int frequency = 100;
 
     private DatabaseInterface database;
 
@@ -50,23 +49,8 @@ public class LayoutManager implements LayoutManagerInterface {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        //Updating the layout
-        while (true) {
-            for(int i = 1 ; i < 5 ; i++) {
-                ImageView pigeonImageView = (ImageView ) root.getChildren().get(i);
-                Pigeon pigeon = database.getPigeonById(i);
-                pigeonImageView.setLayoutX(pigeon.getPosition().getX());
-                pigeonImageView.setLayoutY(pigeon.getPosition().getY());
-                GridPane.setConstraints(pigeonImageView, pigeon.getPosition().getX() / foodSize, pigeon.getPosition().getY() / foodSize);
-                root.getChildren().remove(i);
-                root.getChildren().add(i, pigeonImageView);
-            }
-            try {
-                TimeUnit.MILLISECONDS.sleep(frequency);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        Thread layoutThread = new Thread(new LayoutUpdate(database, root));
+        layoutThread.start();
     }
 
     private void displayPigeons(GridPane root) {
