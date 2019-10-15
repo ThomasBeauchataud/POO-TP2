@@ -12,7 +12,7 @@ public class CatchThreadExceptionInterceptor {
         try {
            joinPoint.proceed();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Fin d'un Thread par Exception");
         }
         return null;
     }

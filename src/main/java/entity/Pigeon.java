@@ -8,7 +8,7 @@ import static java.lang.Math.abs;
 
 public class Pigeon extends LayoutEntity implements PigeonInterface {
 
-    private static final int speed = ConfigManager.getInt("pigeonSpeed");
+    private static final int speed = loadSpeed();
     private static final int pigeonSecurityRange = ConfigManager.getInt("pigeonSecurityRange");
     private static final int highSpeed = ConfigManager.getInt("highSpeed");
 
@@ -64,6 +64,11 @@ public class Pigeon extends LayoutEntity implements PigeonInterface {
                 this.position.setX(this.position.getX() + 1);
             }
         }
+    }
+
+    private static int loadSpeed() {
+        int pigeonSpeed = ConfigManager.getInt("pigeonSpeed") / 2;
+        return pigeonSpeed + (int) ( Math.random() * (pigeonSpeed));
     }
 
 }

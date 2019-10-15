@@ -37,7 +37,7 @@ public class FearLifeCycle implements Runnable {
     public void run() {
         while(true) {
             try {
-                TimeUnit.MILLISECONDS.sleep(fearFrequency);
+                TimeUnit.MILLISECONDS.sleep(fearTime + (int)(Math.random()*(fearFrequency - fearTime)));
                 execute();
             } catch (Exception e) {
                 e.printStackTrace();
