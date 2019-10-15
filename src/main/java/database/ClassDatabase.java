@@ -1,98 +1,78 @@
 package database;
 
-import entity.Food;
-import entity.Pigeon;
-import entity.Position;
+import entity.*;
+import managers.ConfigManager;
 
 import java.util.ArrayList;
 
-import static sample.ImageManager.pigeonSize;
-import static sample.LayoutManager.gridSize;
-
 public class ClassDatabase implements DatabaseInterface {
 
-    private ArrayList<Food> foodList = new ArrayList<>();
-    private ArrayList<Pigeon> pigeonList = new ArrayList<>();
+    private static final int gridSize = ConfigManager.getInt("gridSize");
+    private static final int imageSize = ConfigManager.getInt("imageSize");
+
+    private ArrayList<FoodInterface> foodList;
+    private ArrayList<PigeonInterface> pigeonList;
+    private FearInterface fear;
 
     public ClassDatabase() {
-        this.loadPigeon();
+        foodList = new ArrayList<>();
+        pigeonList = new ArrayList<>();
+        this.loadPigeon(); }
+
+    @Override
+    public void addPigeon(PigeonInterface pigeon) {
+        pigeonList.add(pigeon);
     }
 
     @Override
-    public Pigeon getPigeonById(int id) {
-        return pigeonList.get(id);
+    public void updatePigeon(PigeonInterface pigeon) {
+        pigeonList.set(pigeonList.indexOf(pigeon), pigeon);
     }
 
     @Override
-    public int addPigeon(Pigeon pigeon) {
-        int id = pigeonList.size();
-        pigeon.setId(id);
-        pigeonList.add(id, pigeon);
-        return id;
+    public PigeonInterface[] getPigeons() {
+        return this.pigeonList.toArray(new PigeonInterface[0]);
     }
 
     @Override
-    public void updatePigeon(Pigeon pigeon) {
-        pigeonList.set(pigeon.getId(), pigeon);
+    public void addFood(FoodInterface food) {
+        foodList.add(food);
     }
 
     @Override
-    public ArrayList<Pigeon> getPigeonList() {
-        return this.pigeonList;
+    public void updateFood(FoodInterface food) {
+        foodList.set(foodList.indexOf(food), food);
     }
 
     @Override
-    public Food getFoodById(int id) {
-        return foodList.get(id);
-    }
-
-    @Override
-    public int addFood(Food food) {
-        int id = foodList.size();
-        food.setId(id);
-        foodList.add(foodList.size(), food);
-        return id;
-    }
-
-    @Override
-    public void updateFood(Food food) {
-        foodList.remove(food);
-        foodList.add(food.getId(), food);
-    }
-
-    @Override
-    public void removeFood(Food food) {
+    public void removeFood(FoodInterface food) {
         foodList.remove(food);
     }
 
     @Override
-    public Food[] getFoods() {
-        return foodList.toArray(new Food[0]);
+    public FoodInterface[] getFoods() {
+        return foodList.toArray(new FoodInterface[0]);
+    }
+
+
+    @Override
+    public void removeFear(FearInterface fear) {
+        this.fear = null;
     }
 
     @Override
-    public int getPigeonsCount() {
-        return pigeonList.size();
+    public void updateFear(FearInterface fear) {
+        this.fear = fear;
     }
 
     @Override
-    public int getFoodsCount() {
-        return foodList.size();
+    public FearInterface getFear() {
+        return this.fear;
     }
 
     private void loadPigeon () {
-        addPigeon(new Pigeon(
-                new Position(0, 0)
-        ));
-        addPigeon(new Pigeon(
-            new Position(0, gridSize - pigeonSize)
-        ));
-        /*addPigeon(new Pigeon(
-            new Position(gridSize - pigeonSize, 0)
-        ));
-        addPigeon(new Pigeon(
-            new Position(gridSize - pigeonSize, gridSize - pigeonSize)
-        ));*/
+        addPigeon(new Pigeon(new Position(0, 0)));
+        addPigeon(new Pigeon(new Position(0, gridSize - imageSize)));
     }
 
 }

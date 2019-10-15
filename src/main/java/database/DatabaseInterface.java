@@ -1,31 +1,70 @@
 package database;
 
-import entity.Food;
-import entity.Pigeon;
+import entity.*;
 
-import java.util.ArrayList;
-
+/**
+ * The database to store Objects
+ */
 public interface DatabaseInterface {
 
-    public Pigeon getPigeonById(int id);
+    /**
+     * Add a Pigeon in the database
+     * @param pigeon PigeonInterface
+     */
+    void addPigeon (PigeonInterface pigeon);
 
-    public int addPigeon (Pigeon pigeon);
+    /**
+     * Update an existing Pigeon in the database
+     * @param pigeon PigeonInterface
+     */
+    void updatePigeon (PigeonInterface pigeon);
 
-    public void updatePigeon (Pigeon pigeon);
+    /**
+     * Return the list of Pigeons
+     * @return PigeonInterface[]
+     */
+    PigeonInterface[] getPigeons();
 
-    ArrayList<Pigeon> getPigeonList();
+    /**
+     * Add a Food in the database
+     * @param food FoodInterface
+     */
+    void addFood (FoodInterface food);
 
-    public Food getFoodById(int id);
+    /**
+     * Update an existing Food in the database
+     * @param food FoodInterface
+     */
+    void updateFood (FoodInterface food);
 
-    public int addFood (Food food);
+    /**
+     * Remove an existing Food in from database
+     * @param food FoodInterface
+     */
+    void removeFood(FoodInterface food);
 
-    public void updateFood (Food food);
+    /**
+     * Return the list of Foods
+     * @return FoodInterface[]
+     */
+    FoodInterface[] getFoods();
 
-    void removeFood(Food food);
+    /**
+     * Remove the Fear from the database
+     * @param fear FearInterface
+     */
+    void removeFear(FearInterface fear);
 
-    Food[] getFoods();
+    /**
+     * Update the Fear in the database
+     * @param fear FearInterface
+     */
+    void updateFear(FearInterface fear);
 
-    int getPigeonsCount();
+    /**
+     * Get the Fear from the database
+     * @return FearInterface
+     */
+    FearInterface getFear();
 
-    int getFoodsCount();
 }

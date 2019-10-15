@@ -1,59 +1,46 @@
 package entity;
 
-public class Food {
+import managers.ConfigManager;
 
-    private Position position;
-    private int id;
+public class Food extends LayoutEntity implements FoodInterface {
+
+    private static final int defaultDurability = ConfigManager.getInt("defaultDurability");
+
+    private PositionInterface position;
     private int durability;
     private boolean eaten;
-    private final int speed = 1;
 
-    public Food() { }
-
-    public Food(Position position) {
+    public Food(PositionInterface position) {
         this.position = position;
-        this.durability = 10;
+        this.durability = defaultDurability;
         this.eaten = false;
     }
 
-    public Position getPosition() {
+    @Override
+    public PositionInterface getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @Override
     public int getDurability() {
         return durability;
     }
 
-    public void setDurability(int durability) {
-        this.durability = durability;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
+    @Override
     public boolean isEaten() {
         return eaten;
     }
 
+    @Override
     public void setEaten(boolean eaten) {
         this.eaten = eaten;
     }
 
+    @Override
     public void gettingOld() {
-        this.durability--;
+        if(durability > 0) {
+            this.durability--;
+        }
     }
 
 }

@@ -1,70 +1,75 @@
 package thread;
 
 import database.DatabaseInterface;
-import entity.Food;
-import entity.Pigeon;
-import entity.Position;
+import entity.*;
 import javafx.application.Platform;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import managers.ConfigManager;
+import thread.common.CatchThreadException;
+import thread.layout.LayoutFoodRemover;
+import thread.layout.LayoutPigeonUpdater;
 
 import java.util.concurrent.TimeUnit;
-
-import static sample.LayoutManager.frequency;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class PigeonLifeCycle implements Runnable {
 
+    private static final int frequency = ConfigManager.getInt("frequency");
+    private static final int pigeonSecurityRange = ConfigManager.getInt("pigeonSecurityRange");
+
     private DatabaseInterface database;
-    private int pigeonId;
+    private PigeonInterface pigeon;
     private Runnable layoutPigeonUpdater;
     private Runnable layoutFoodUpdater;
 
-    public PigeonLifeCycle(DatabaseInterface database, int pigeonId, GridPane root) {
+    public PigeonLifeCycle(DatabaseInterface database, PigeonInterface pigeon, Pane root) {
         this.database = database;
-        this.pigeonId = pigeonId;
-        layoutPigeonUpdater = new LayoutPigeonUpdater(database, root, pigeonId);
-        layoutFoodUpdater = new LayoutFoodUpdater(database, root);
+        this.pigeon = pigeon;
+        layoutPigeonUpdater = new LayoutPigeonUpdater(root, pigeon);
+        layoutFoodUpdater = new LayoutFoodRemover(database, root);
     }
 
     @Override
+    @CatchThreadException
     public void run() {
-        try {
-            while (true) {
-                lookForFood();
+        while (true) {
+            try {
+                execute();
                 TimeUnit.MILLISECONDS.sleep(frequency);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
-    private void lookForFood() {
-        Food[] foods = database.getFoods();
-        Food bestFood = null;
-        for(Food food : foods) {
+    private void execute() {
+        FoodInterface[] foods = database.getFoods();
+        FearInterface fear = database.getFear();
+        if(fear != null && pigeon.isCloseTo(fear.getPosition())) {
+            PositionInterface positionToReach = pigeon.getPosition().getOpposition(fear.getPosition(), pigeonSecurityRange);
+            pigeon.rushTo(positionToReach);
+            Platform.runLater(layoutPigeonUpdater);
+            return;
+        }
+        FoodInterface bestFood = null;
+        for(FoodInterface food : foods) {
             if(food.getDurability() != 0) {
                 if(bestFood == null || bestFood.getDurability() < food.getDurability()) {
                     bestFood = food;
                 }
             }
         }
-        Pigeon pigeon = database.getPigeonById(pigeonId);
-        if (bestFood == null){
-            if(pigeon.getSleeping() == Pigeon.timeToSleep) {
-                return;
+        if (bestFood != null){
+            PositionInterface positionToReach = bestFood.getPosition();
+            pigeon.moveTo(positionToReach);
+            if(bestFood.getPosition().toString().equals(pigeon.getPosition().toString())) {
+                bestFood.setEaten(true);
+                database.updateFood(bestFood);
+                Platform.runLater(layoutFoodUpdater);
             }
-            pigeon.setSleeping(pigeon.getSleeping() + 1);
-            return;
+            database.updatePigeon(pigeon);
+            Platform.runLater(layoutPigeonUpdater);
         }
-        Position positionToReach = bestFood.getPosition();
-        pigeon.moveTo(positionToReach);
-        if(bestFood.getPosition().toString().equals(pigeon.getPosition().toString())) {
-            bestFood.setEaten(true);
-            database.updateFood(bestFood);
-            Platform.runLater(layoutFoodUpdater);
-        }
-        database.updatePigeon(pigeon);
-        Platform.runLater(layoutPigeonUpdater);
     }
 
 }

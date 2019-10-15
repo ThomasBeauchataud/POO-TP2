@@ -1,0 +1,9 @@
+frequency: 100
+imageSize: 30
+gridSize: 920
+fearTime: 4000
+fearFrequency: 8000
+pigeonSpeed: 10
+pigeonSecurityRange: 500
+highSpeed: 2
+defaultDurability: 150

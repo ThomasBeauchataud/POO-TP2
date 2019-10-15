@@ -1,30 +1,38 @@
 package thread;
 
-import entity.Food;
+import entity.FoodInterface;
+import managers.ConfigManager;
+import thread.common.CatchThreadException;
 
 import java.util.concurrent.TimeUnit;
-
-import static sample.LayoutManager.frequency;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class FoodLifeCycle implements Runnable {
 
-    private Food food;
+    private static final int frequency = ConfigManager.getInt("frequency");
 
-    public FoodLifeCycle(Food food) {
+    private FoodInterface food;
+
+    public FoodLifeCycle(FoodInterface food) {
         this.food = food;
     }
 
     @Override
+    @CatchThreadException
     public void run() {
-        try {
-            while(true) {
-                this.food.gettingOld();
+        while(true) {
+            try {
+                execute();
                 TimeUnit.MILLISECONDS.sleep(frequency);
-                TimeUnit.MILLISECONDS.sleep(food.getSpeed());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+
     }
+
+    private void execute() {
+        this.food.gettingOld();
+    }
+
 }
