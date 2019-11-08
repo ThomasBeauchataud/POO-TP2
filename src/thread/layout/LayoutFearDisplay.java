@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import managers.ConfigManager;
-import thread.common.CatchThreadException;
 
 public class LayoutFearDisplay implements Runnable {
 
@@ -21,7 +20,6 @@ public class LayoutFearDisplay implements Runnable {
     }
 
     @Override
-    @CatchThreadException
     public void run() {
         FearInterface fear = database.getFear();
         ImageView fearImageView = fear.getImageView();

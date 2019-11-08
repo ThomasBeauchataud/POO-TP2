@@ -23,6 +23,8 @@ public class ConfigManager {
             config = (Map) object;
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Error while trying to load the configuration file");
+            System.exit(1);
         }
     }
 

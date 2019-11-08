@@ -3,7 +3,6 @@ package thread.layout;
 import database.DatabaseInterface;
 import entity.FoodInterface;
 import javafx.scene.layout.Pane;
-import thread.common.CatchThreadException;
 
 public class LayoutFoodRemover implements Runnable {
 
@@ -16,7 +15,6 @@ public class LayoutFoodRemover implements Runnable {
     }
 
     @Override
-    @CatchThreadException
     public void run() {
         for(FoodInterface food : database.getFoods()) {
             if(food.isEaten()) {

@@ -5,9 +5,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 @Aspect
-public class CatchThreadExceptionInterceptor {
+public class CatchThreadException {
 
-    @Around("@annotation(thread.common.CatchThreadException))")
+    @Around("execution(public void *.run())")
     public Object trace (ProceedingJoinPoint joinPoint) throws Throwable {
         try {
            joinPoint.proceed();

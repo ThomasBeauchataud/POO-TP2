@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import managers.ConfigManager;
 import managers.ImageManagerInterface;
-import thread.common.CatchThreadException;
 import thread.layout.LayoutFearDisplay;
 import thread.layout.LayoutFearRemover;
 
@@ -33,7 +32,6 @@ public class FearLifeCycle implements Runnable {
     }
 
     @Override
-    @CatchThreadException
     public void run() {
         while(true) {
             try {

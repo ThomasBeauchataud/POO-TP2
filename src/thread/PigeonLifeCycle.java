@@ -5,7 +5,6 @@ import entity.*;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import managers.ConfigManager;
-import thread.common.CatchThreadException;
 import thread.layout.LayoutFoodRemover;
 import thread.layout.LayoutPigeonUpdater;
 
@@ -30,7 +29,6 @@ public class PigeonLifeCycle implements Runnable {
     }
 
     @Override
-    @CatchThreadException
     public void run() {
         while (true) {
             try {
@@ -64,6 +62,7 @@ public class PigeonLifeCycle implements Runnable {
             pigeon.moveTo(positionToReach);
             if(bestFood.getPosition().toString().equals(pigeon.getPosition().toString())) {
                 bestFood.setEaten(true);
+                eatenTrigger(pigeon, bestFood);
                 database.updateFood(bestFood);
                 Platform.runLater(layoutFoodUpdater);
             }
@@ -71,5 +70,7 @@ public class PigeonLifeCycle implements Runnable {
             Platform.runLater(layoutPigeonUpdater);
         }
     }
+
+    private void eatenTrigger(PigeonInterface pigeon, FoodInterface food) { }
 
 }

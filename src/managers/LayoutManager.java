@@ -27,23 +27,29 @@ public class LayoutManager implements LayoutManagerInterface {
 
     @Override
     public void load(Stage primaryStage) {
-        root = new GridPane();
+        try {
+            root = new GridPane();
 
-        for (int i = 0; i < gridSize / imageSize; i++) {
-            ColumnConstraints column = new ColumnConstraints(imageSize);
-            RowConstraints row = new RowConstraints(imageSize);
-            root.getColumnConstraints().add(column);
-            root.getRowConstraints().add(row);
+            for (int i = 0; i < gridSize / imageSize; i++) {
+                ColumnConstraints column = new ColumnConstraints(imageSize);
+                RowConstraints row = new RowConstraints(imageSize);
+                root.getColumnConstraints().add(column);
+                root.getRowConstraints().add(row);
+            }
+            primaryStage.setTitle("Pigeon Game");
+            Scene scene = new Scene(root, gridSize, gridSize);
+
+            this.displayPigeons(root);
+            scene.setOnMouseClicked(mouseEvent ->
+                    addFood(root, new Position((int) mouseEvent.getSceneX(), (int) mouseEvent.getSceneY()))
+            );
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error while trying to load the scene");
+            System.exit(1);
         }
-        primaryStage.setTitle("Pigeon Game");
-        Scene scene = new Scene(root, gridSize, gridSize);
-
-        this.displayPigeons(root);
-        scene.setOnMouseClicked(mouseEvent  ->
-                addFood(root, new Position((int) mouseEvent.getSceneX(), (int) mouseEvent.getSceneY()))
-        );
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     @Override

@@ -3,7 +3,7 @@ package entity;
 import javafx.scene.image.ImageView;
 
 /**
- * Layout Entity is an Entity which is represented by an ImageView
+ * A LayoutEntity is an Entity which is represented by an ImageView
  */
 public interface LayoutEntityInterface {
 

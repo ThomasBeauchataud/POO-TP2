@@ -3,7 +3,6 @@ package thread.layout;
 import database.DatabaseInterface;
 import entity.FearInterface;
 import javafx.scene.layout.Pane;
-import thread.common.CatchThreadException;
 
 public class LayoutFearRemover implements Runnable {
 
@@ -16,7 +15,6 @@ public class LayoutFearRemover implements Runnable {
     }
 
     @Override
-    @CatchThreadException
     public void run() {
         FearInterface fear = database.getFear();
         if(fear.isExpired()) {

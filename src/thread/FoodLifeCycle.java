@@ -2,28 +2,36 @@ package thread;
 
 import entity.FoodInterface;
 import managers.ConfigManager;
-import thread.common.CatchThreadException;
 
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("InfiniteLoopStatement")
 public class FoodLifeCycle implements Runnable {
 
     private static final int frequency = ConfigManager.getInt("frequency");
 
     private FoodInterface food;
+    private boolean firstEnd = true;
 
     public FoodLifeCycle(FoodInterface food) {
         this.food = food;
     }
 
     @Override
-    @CatchThreadException
     public void run() {
         while(true) {
             try {
                 execute();
+                if(food.getDurability() == 0) {
+                    if(firstEnd) {
+                        firstEnd = false;
+                    } else {
+                        break;
+                    }
+                }
                 TimeUnit.MILLISECONDS.sleep(frequency);
+                if(food.isEaten()) {
+                    break;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

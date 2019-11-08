@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import managers.ConfigManager;
-import thread.common.CatchThreadException;
 
 public class LayoutPigeonUpdater implements Runnable {
 
@@ -20,7 +19,6 @@ public class LayoutPigeonUpdater implements Runnable {
     }
 
     @Override
-    @CatchThreadException
     public void run() {
         ImageView pigeonImageView = pigeon.getImageView();
         pigeonImageView.setLayoutX(pigeon.getPosition().getX());
